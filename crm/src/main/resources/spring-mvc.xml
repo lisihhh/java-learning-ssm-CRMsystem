@@ -25,5 +25,6 @@
 
     <!-- 4.扫描web相关的bean -->
     <context:component-scan base-package="com.lisi.crm.web.controller"/>
+    <context:component-scan base-package="com.lisi.crm.settings.web.controller"/>
 
 </beans>
