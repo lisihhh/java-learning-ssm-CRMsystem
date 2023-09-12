@@ -107,4 +107,25 @@ public class UserController {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(returnObject);
     }
+
+    /**
+     * 安全退出操作
+     * @return
+     */
+    @RequestMapping("/settings/qx/user/logout.do")
+    public String logout(HttpServletResponse response,HttpSession session) {
+        //清空cookie
+        Cookie cookieAct = new Cookie("loginAct","0");
+        Cookie cookiePwd = new Cookie("loginPwd","0");
+        cookieAct.setMaxAge(0);
+        cookiePwd.setMaxAge(0);
+        response.addCookie(cookieAct);
+        response.addCookie(cookiePwd);
+
+        //销毁session
+        session.invalidate();
+
+        //跳转到首页
+        return "redirect:/";
+    }
 }

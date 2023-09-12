@@ -46,6 +46,7 @@
                         if (jsonobj.loginSuccessCode == "0") {
                             //登陆失败，显示失败原因
                             $("#msg").html("登陆失败," + jsonobj.loginMessage);
+                            $("#loginBtn").html("登录");
                         } else {
                             //登陆成功
                             window.location.href = "workbench/toWorkbenchIndex.do";
