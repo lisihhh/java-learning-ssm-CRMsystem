@@ -8,7 +8,10 @@ import com.lisi.crm.common.utils.DateUtils;
 import com.lisi.crm.settings.pojo.User;
 import com.lisi.crm.settings.service.UserService;
 import com.lisi.crm.settings.service.impl.UserServiceImpl;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpRequest;
@@ -46,7 +49,7 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping("/settings/qx/user/login.do")
-    public String login(String loginAct, String loginPwd, String isRemPwd, HttpServletRequest request)
+    public String login(String loginAct, String loginPwd, String isRemPwd, HttpServletRequest request, HttpSession session, HttpServletResponse response)
             throws JsonProcessingException {
         //封装前端登陆用户名和密码
         Map<String, Object> map = new HashMap<>();
@@ -67,7 +70,7 @@ public class UserController {
                 //登陆失败，用户已过期
                 returnObject.setLoginSuccessCode(Constants.RETURN_LOGIN_FAIL);
                 returnObject.setLoginMessage("用户已过期");
-            } else if (user.getLockState() == "0") {
+            } else if ("0".equals(user.getLockState())) {
                 //登陆失败，用户状态被锁定
                 returnObject.setLoginSuccessCode(Constants.RETURN_LOGIN_FAIL);
                 returnObject.setLoginMessage("用户状态被锁定");
@@ -78,6 +81,25 @@ public class UserController {
             } else {
                 //登陆成功
                 returnObject.setLoginSuccessCode(Constants.RETURN_LOGIN_SUCCESS);
+
+                //将用户添加到session域，便于前端页面展示
+                session.setAttribute("user", user);
+
+                //十天内免登陆
+                Cookie cookieAct = new Cookie("loginAct",loginAct);
+                Cookie cookiePwd = new Cookie("loginPwd",loginPwd);
+                //判断是否勾选“十天内免登陆”
+                if ("true".equals(isRemPwd)) {
+                    //勾选 十天内免登陆，则将账号密码存在cookie中
+                    cookieAct.setMaxAge(10*24*60*60);
+                    cookiePwd.setMaxAge(10*24*60*60);
+                }else {
+                    //未勾选 十天内免登陆，则将cookie中的账号密码删除
+                    cookieAct.setMaxAge(0);
+                    cookiePwd.setMaxAge(0);
+                }
+                response.addCookie(cookieAct);
+                response.addCookie(cookiePwd);
             }
         }
 
