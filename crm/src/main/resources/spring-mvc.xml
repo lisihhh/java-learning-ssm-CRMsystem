@@ -44,4 +44,19 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+    <!--拦截器-->
+    <mvc:interceptors>
+        <!--登录验证-->
+        <mvc:interceptor>
+            <!--拦截的路径-->
+            <mvc:mapping path="/settings/**"/>
+            <mvc:mapping path="/workbench/**"/>
+            <!--不拦截的路径-->
+            <mvc:exclude-mapping path="/settings/qx/user/toLogin.do"/>
+            <mvc:exclude-mapping path="/settings/qx/user/login.do"/>
+            <!--bean配置的就是拦截器-->
+            <bean class="com.lisi.crm.settings.web.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

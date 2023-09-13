@@ -83,7 +83,7 @@ public class UserController {
                 returnObject.setLoginSuccessCode(Constants.RETURN_LOGIN_SUCCESS);
 
                 //将用户添加到session域，便于前端页面展示
-                session.setAttribute("user", user);
+                session.setAttribute(Constants.SESSION_USER, user);
 
                 //十天内免登陆
                 Cookie cookieAct = new Cookie("loginAct",loginAct);
