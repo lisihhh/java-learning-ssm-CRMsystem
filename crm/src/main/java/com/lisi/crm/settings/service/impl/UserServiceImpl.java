@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service("userServiceImpl")
@@ -18,5 +19,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User queryByLoginActAndPwd(Map<String, Object> map) {
         return userMapper.selectByLoginActAndPwd(map);
+    }
+
+    @Override
+    public List<User> queryAllUsers() {
+        return userMapper.selectAllUsers();
     }
 }

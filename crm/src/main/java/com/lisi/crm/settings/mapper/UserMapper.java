@@ -37,4 +37,10 @@ public interface UserMapper {
      * @return
      */
     User selectByLoginActAndPwd(Map<String, Object> map);
+
+    /**
+     * 查询所有用户
+     * @return
+     */
+    List<User> selectAllUsers();
 }
