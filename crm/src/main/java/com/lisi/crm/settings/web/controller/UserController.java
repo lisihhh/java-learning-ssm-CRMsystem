@@ -63,24 +63,24 @@ public class UserController {
         ReturnObject returnObject = new ReturnObject();
         if (user == null) {
             //登陆失败，用户名或密码错误
-            returnObject.setLoginSuccessCode(Constants.RETURN_LOGIN_FAIL);
-            returnObject.setLoginMessage("用户名或密码错误");
+            returnObject.setSuccessCode(Constants.RETURN_FAIL);
+            returnObject.setMessage("用户名或密码错误");
         }else {
             if (DateUtils.formatDateTime(new Date()).compareTo(user.getExpireTime()) > 0) {
                 //登陆失败，用户已过期
-                returnObject.setLoginSuccessCode(Constants.RETURN_LOGIN_FAIL);
-                returnObject.setLoginMessage("用户已过期");
+                returnObject.setSuccessCode(Constants.RETURN_FAIL);
+                returnObject.setMessage("用户已过期");
             } else if ("0".equals(user.getLockState())) {
                 //登陆失败，用户状态被锁定
-                returnObject.setLoginSuccessCode(Constants.RETURN_LOGIN_FAIL);
-                returnObject.setLoginMessage("用户状态被锁定");
+                returnObject.setSuccessCode(Constants.RETURN_FAIL);
+                returnObject.setMessage("用户状态被锁定");
             } else if (!user.getAllowIps().contains(request.getRemoteAddr())) {
                 //登陆失败，ip受限
-                returnObject.setLoginSuccessCode(Constants.RETURN_LOGIN_FAIL);
-                returnObject.setLoginMessage("ip受限");
+                returnObject.setSuccessCode(Constants.RETURN_FAIL);
+                returnObject.setMessage("ip受限");
             } else {
                 //登陆成功
-                returnObject.setLoginSuccessCode(Constants.RETURN_LOGIN_SUCCESS);
+                returnObject.setSuccessCode(Constants.RETURN_SUCCESS);
 
                 //将用户添加到session域，便于前端页面展示
                 session.setAttribute(Constants.SESSION_USER, user);

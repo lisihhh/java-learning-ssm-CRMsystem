@@ -22,7 +22,75 @@
     <script type="text/javascript">
 
         $(function () {
+            //点击“创建”按钮
+            $("#createActivityBtn").click(function (){
+                //初始化“创建市场活动”表单
+                $("#createActivityForm").get(0).reset();
+                //弹出创建市场活动模态窗口
+                $("#createActivityModal").modal("show");
+            })
 
+            //点击“创建市场活动模态窗口”中的保存按钮
+            $("#saveCreateActivityBtn").click(function () {
+                //获取市场活动参数
+                var owner = $("#create-marketActivityOwner").val();
+                var name = $.trim($("#create-marketActivityName").val());
+                var startDate = $("#create-startTime").val();
+                var endDate = $("#create-endTime").val();
+                var cost = $.trim($("#create-cost").val());
+                var description = $("#create-describe").val();
+
+                //表单验证
+                //1、所有者和名称不能为空
+                if (owner == "") {
+                    alert("所有者不能为空")
+                    return;
+                }
+                if (name == "") {
+                    alert("名称不能为空")
+                    return;
+                }
+                //2、若开始日期和节数日期都不为空，则结束日期不能比开始日期小
+                if (startDate != "" && endDate != "") {
+                    if (startDate > endDate) {
+                        alert("结束日期不能比开始日期小")
+                        return;
+                    }
+                }
+                //3、成本只能为非负数
+                if (cost != "") {
+                    var regExp = /^(([1-9]\d*)|0)$/;
+                    if (!regExp.test(cost)) {
+                        alert("成本只能为非负整数")
+                        return;
+                    }
+                }
+
+                //发送ajax请求，向数据库中插入市场活动
+                $.ajax({
+                    type: "POST",
+                    url: "workbench/activity/saveCreateActivity.do",
+                    data: {
+                        owner:owner,
+                        name:name,
+                        startDate:startDate,
+                        endDate:endDate,
+                        cost:cost,
+                        description:description
+                    },
+                    success: function (json){
+                        var jsonobj = JSON.parse(json);
+                        if (jsonobj.successCode == "0") {
+                            //保存失败
+                            alert(jsonobj.message);
+                        }else {
+                            //保存成功，关闭模态窗口
+                            $("#createActivityModal").modal("hide");
+                            //刷新市场活动表
+                        }
+                    }
+                })
+            })
 
         });
 
@@ -42,7 +110,7 @@
             </div>
             <div class="modal-body">
 
-                <form class="form-horizontal" role="form">
+                <form id="createActivityForm" class="form-horizontal" role="form">
 
                     <div class="form-group">
                         <label for="create-marketActivityOwner" class="col-sm-2 control-label">所有者<span
@@ -50,7 +118,7 @@
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="create-marketActivityOwner">
                                 <c:forEach items="${users}" var="u">
-                                    <option>${u.name}</option>
+                                    <option value="${u.id}">${u.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -90,7 +158,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                <button type="button" class="btn btn-primary" id="saveCreateActivityBtn">保存</button>
             </div>
         </div>
     </div>
@@ -250,7 +318,7 @@
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createActivityModal">
+                <button type="button" class="btn btn-primary" id="createActivityBtn">
                     <span class="glyphicon glyphicon-plus"></span> 创建
                 </button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editActivityModal"><span

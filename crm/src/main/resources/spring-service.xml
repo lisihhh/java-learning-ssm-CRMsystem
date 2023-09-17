@@ -8,7 +8,8 @@
        https://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 扫描service相关的bean -->
-    <context:component-scan base-package="com.lisi.crm.settings.service"/>
+    <context:component-scan base-package="com.lisi.crm.settings.service,
+                                          com.lisi.crm.workbench.service"/>
 
     <!--配置事务管理器-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

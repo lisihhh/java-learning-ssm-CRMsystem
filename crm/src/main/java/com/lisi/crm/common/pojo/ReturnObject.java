@@ -1,22 +1,22 @@
 package com.lisi.crm.common.pojo;
 
 public class ReturnObject {
-    private String loginSuccessCode;  //登陆是否成功
-    private String loginMessage;   //登陆失败的相应信息
+    private String successCode;  //是否成功
+    private String message;   //失败的相应信息
 
-    public String getLoginSuccessCode() {
-        return loginSuccessCode;
+    public String getSuccessCode() {
+        return successCode;
     }
 
-    public void setLoginSuccessCode(String loginSuccessCode) {
-        this.loginSuccessCode = loginSuccessCode;
+    public void setSuccessCode(String successCode) {
+        this.successCode = successCode;
     }
 
-    public String getLoginMessage() {
-        return loginMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setLoginMessage(String loginMessage) {
-        this.loginMessage = loginMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

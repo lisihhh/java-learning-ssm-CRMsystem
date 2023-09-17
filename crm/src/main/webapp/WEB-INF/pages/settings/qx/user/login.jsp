@@ -43,9 +43,9 @@
                     },
                     success: function (json) {
                         var jsonobj = JSON.parse(json);
-                        if (jsonobj.loginSuccessCode == "0") {
+                        if (jsonobj.successCode == "0") {
                             //登陆失败，显示失败原因
-                            $("#msg").html("登陆失败," + jsonobj.loginMessage);
+                            $("#msg").html("登陆失败," + jsonobj.message);
                             $("#loginBtn").html("登录");
                         } else {
                             //登陆成功

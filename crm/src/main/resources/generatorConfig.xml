@@ -30,7 +30,7 @@
         </jdbcConnection>
 
         <!-- 生成pojo包名和位置 -->
-        <javaModelGenerator targetPackage="com.lisi.crm.settings.pojo" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.lisi.crm.workbench.pojo" targetProject="src/main/java">
             <!--是否开启子包-->
             <property name="enableSubPackages" value="true"/>
             <!--是否去除字段名的前后空白-->
@@ -38,7 +38,7 @@
         </javaModelGenerator>
 
         <!-- 生成SQL映射文件的包名和位置 -->
-        <sqlMapGenerator targetPackage="com.lisi.crm.settings.mapper" targetProject="src/main/java">
+        <sqlMapGenerator targetPackage="com.lisi.crm.workbench.mapper" targetProject="src/main/java">
             <!--是否开启子包-->
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
@@ -46,13 +46,13 @@
         <!-- 生成Mapper接口的包名和位置 -->
         <javaClientGenerator
                 type="xmlMapper"
-                targetPackage="com.lisi.crm.settings.mapper"
+                targetPackage="com.lisi.crm.workbench.mapper"
                 targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
         <!-- 表名和对应的实体类名-->
-        <table tableName="tbl_user" domainObjectName="User"/>
+        <table tableName="tbl_activity" domainObjectName="Activity"/>
 
     </context>
 </generatorConfiguration>

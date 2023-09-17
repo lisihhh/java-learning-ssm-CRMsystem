@@ -42,7 +42,8 @@
         <!-- 注入sqlSessionFactory -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!-- 给出需要扫描Dao接口包 -->
-        <property name="basePackage" value="com.lisi.crm.settings.mapper"/>
+        <property name="basePackage" value="com.lisi.crm.settings.mapper,
+                                            com.lisi.crm.workbench.mapper"/>
     </bean>
 
 </beans>
